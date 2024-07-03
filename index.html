@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prueba - Conversor de monedas</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+
+  <main class="bg-gray-900 h-screen w-full pt-5">
+    <div class="container mx-auto">
+      <hr class="border-blue-500">
+      <h1 class="text-4xl text-center text-gray-100 font-semibold my-5">Conversor de monedas nacional</h1>
+      <hr class="border-blue-500">
+      <div class="container mx-auto flex flex-col bg-gray-600 p-4 rounded shadow w-[500px] mt-10">
+        <h2 class="text-white text-2xl font-semibold p-4 text-center">Pesos CLP</h2>
+        <input class="p-4 text-gray-700 text-center text-lg focus:outline-none focus:ring-2 focus:ring-blue-500" type="number"
+          placeholder="Ingrese el monto en CLP" min="0">
+        <h3 class="text-white text-lg font-semibold p-4 text-center">Moneda a convertir:</h3>
+        <select
+          class="p-4 mb-5 text-gray-700 text-center text-lg rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option>Seleccione moneda</option>
+        </select>
+
+        <button class="bg-blue-500 hover:bg-blue-400 text-white text-lg py-2 mb-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">Buscar</button>
+      </div>
+
+      <div id="chart"></div>
+    </div>
+  </main>
+
+  <script src="./assets/js/script.js"></script>
+</body>
+
+</html>
