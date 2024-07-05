@@ -7,9 +7,12 @@ const renderMessage = (messageText, className, container) => {
 
 }
 
-const getIndicadores = async () => {
+const baseUrl = 'https://mindicador.cl/api'
+
+const getIndicadores = async (indicador) => {
   try {
-    const resp = await fetch('https://mindicador.cl/api')
+    const url = indicador ? `${baseUrl}/${indicador}` : baseUrl
+    const resp = await fetch(url)
     const data = await resp.json()
     return data
   } catch (error) {
@@ -21,24 +24,48 @@ const getIndicadores = async () => {
 const getCurrencyValue = async (currency) => {
   const data = await getIndicadores()
   let exchangeRate
+  let currencyCode
   switch (currency) {
     case 'USD':
       exchangeRate = data.dolar.valor
+      currencyCode = data.dolar.codigo
       break;
     case 'EUR':
       exchangeRate = data.euro.valor
+      currencyCode = data.euro.codigo
       break;
     default:
       renderMessage('Tipo de moneda no soportado.', errorClasses, result)
       throw new Error('Tipo de moneda no soportado.')
   }
 
-  return exchangeRate
+  const series = await getChartData(currencyCode)
+
+  return { exchangeRate, series }
+}
+
+const getChartData = async (currencyCode) => {
+  const data = await getIndicadores(currencyCode)
+  const series = data.serie.slice(0, 10)
+  return series
+}
+
+const chartContainer = document.querySelector('#chart-container')
+const updateChart = (series) => {
+  const labels = series.map(item => item.fecha.split('T')[0])
+  const data = series.map(item => item.valor)
+
+  chart.data.labels = labels
+  chart.data.datasets[0].data = data
+  chart.update()
+
+  chartContainer.classList.remove('opacity-0')
 }
 
 const convertCurrency = async (amount, currency) => {
-  const exchangeRate = await getCurrencyValue(currency)
+  const { exchangeRate, series } = await getCurrencyValue(currency)
   const convertedAmount = amount / exchangeRate
+  updateChart(series)
   return convertedAmount
 }
 
@@ -80,30 +107,46 @@ inputAmount.addEventListener('input', updateBtnState)
 btnBuscar.addEventListener('click', handleConversion)
 
 
-const chart = document.getElementById('chart');
+const ctx = document.getElementById('chart')
 
-new Chart(chart, {
+const chart = new Chart(ctx, {
   type: 'line',
   data: {
-    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+    labels: [],
     datasets: [{
-      label: '# of Votes',
-      data: [12, 19, 3, 5, 2, 3],
+      label: 'Historial últimos 10 días',
+      data: [],
+      borderColor: 'rgba(255, 255, 255, 1)',
+      labelColor: 'rgba(255, 255, 255, 1)',
+      backgroundColor: 'rgba(255, 255, 255, 0.2)',
       borderWidth: 1,
     }]
   },
   options: {
+    plugins: {
+      legend: {
+        labels: {
+          color: 'white'
+        }
+      }
+    },
     scales: {
       y: {
         beginAtZero: true,
         ticks: {
           color: 'white'
+        },
+        grid: {
+          color: 'rgba(255, 255, 255, 0.2)'
         }
       }
       , x: {
         beginAtZero: true,
         ticks: {
           color: 'white'
+        },
+        grid: {
+          color: 'rgba(255, 255, 255, 0.2)'
         }
       }
 

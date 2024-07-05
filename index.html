@@ -8,9 +8,8 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
-
-  <main class="bg-gray-900 h-screen w-full pt-5">
+<body class="bg-gray-900 p-5">
+  <main class="w-full pt-5">
     <div class="container mx-auto">
       <hr class="border-blue-500">
       <h1 class="text-4xl text-center text-gray-100 font-semibold my-5">Conversor de monedas nacional</h1>
@@ -33,8 +32,8 @@
       </div>
 
 
-      <div class="container mx-auto mt-5">
-        <canvas id="chart"></canvas>
+      <div id="chart-container" class="container mx-auto mt-5 h-[400px] pb-5 opacity-0">
+        <canvas id="chart" class="container mx-auto"></canvas>
       </div>
     </div>
   </main>
