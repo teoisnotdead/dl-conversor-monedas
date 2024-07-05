@@ -86,11 +86,7 @@ const result = document.querySelector('#result')
 
 const updateBtnState = () => {
   const amountNumber = inputAmount.value * 1
-  if (selectCurrency.value !== 'Seleccione moneda' && (amountNumber > 0)) {
-    btnBuscar.disabled = false
-  } else {
-    btnBuscar.disabled = true
-  }
+  btnBuscar.disabled = (selectCurrency.value === 'Seleccione moneda') || (amountNumber <= 0) ? true : false
 }
 
 const handleConversion = async () => {
