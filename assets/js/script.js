@@ -1,7 +1,7 @@
 const renderMessage = (messageText, className, container) => {
   container.innerHTML = ''
   const message = document.createElement('p')
-  message.className = className
+  message.className = `${className} text-xl`
   message.textContent = messageText
   container.appendChild(message)
 
@@ -25,14 +25,17 @@ const getCurrencyValue = async (currency) => {
   const data = await getIndicadores()
   let exchangeRate
   let currencyCode
+  let currencySimbol
   switch (currency) {
     case 'USD':
       exchangeRate = data.dolar.valor
       currencyCode = data.dolar.codigo
+      currencySimbol = '$'
       break;
     case 'EUR':
       exchangeRate = data.euro.valor
       currencyCode = data.euro.codigo
+      currencySimbol = '€'
       break;
     default:
       renderMessage('Tipo de moneda no soportado.', errorClasses, result)
@@ -41,7 +44,7 @@ const getCurrencyValue = async (currency) => {
 
   const series = await getChartData(currencyCode)
 
-  return { exchangeRate, series }
+  return { exchangeRate, series, currencySimbol }
 }
 
 const getChartData = async (currencyCode) => {
@@ -63,10 +66,10 @@ const updateChart = (series) => {
 }
 
 const convertCurrency = async (amount, currency) => {
-  const { exchangeRate, series } = await getCurrencyValue(currency)
+  const { exchangeRate, series, currencySimbol } = await getCurrencyValue(currency)
   const convertedAmount = amount / exchangeRate
   updateChart(series)
-  return convertedAmount
+  return { convertedAmount, currencySimbol }
 }
 
 const currency_types = ['USD', 'EUR']
@@ -93,9 +96,9 @@ const handleConversion = async () => {
   const amount = inputAmount.value * 1
   const currency = selectCurrency.value
 
-  const convertedAmount = await convertCurrency(amount, currency)
+  const { convertedAmount, currencySimbol } = await convertCurrency(amount, currency)
 
-  renderMessage(`Resultado: ${convertedAmount.toFixed(2)}`, 'text-center text-white font-bold', result)
+  renderMessage(`Resultado: ${currencySimbol}${convertedAmount.toFixed(2)}`, 'text-center text-white font-bold', result)
 }
 
 selectCurrency.addEventListener('change', updateBtnState)
