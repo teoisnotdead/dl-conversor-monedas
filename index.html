@@ -17,7 +17,8 @@
       <hr class="border-blue-500">
       <div class="container mx-auto flex flex-col bg-gray-600 p-4 rounded shadow w-[500px] mt-10">
         <h2 class="text-white text-2xl font-semibold p-4 text-center">Pesos CLP</h2>
-        <input id="amount" class="p-4 text-gray-700 text-center text-lg rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+        <input id="amount"
+          class="p-4 text-gray-700 text-center text-lg rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           type="number" placeholder="Ingrese el monto en CLP" min="0" value="0">
         <h3 class="text-white text-lg font-semibold p-4 text-center">Moneda a convertir:</h3>
         <select id="currency"
@@ -28,7 +29,9 @@
         <button id="convert"
           class="bg-blue-500 hover:bg-blue-400 text-white text-lg py-2 mb-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
           disabled="disabled">Buscar</button>
+        <div id="result"></div>
       </div>
+
 
       <div id="chart"></div>
     </div>
