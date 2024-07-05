@@ -14,4 +14,4 @@ Se crea un conversor de monedas que calcula correctamente el cambio y se muestra
 - Se usa try catch par ejecutar el método fetch ✅
 - Se calcula correctamente el cambio y se muestra en el DOM ✅
 - El select implementa 2 o más tipos de moneda y el cambio funciona correctamente ✅
-- Se implementa gráfico ❌
+- Se implementa gráfico ✅
